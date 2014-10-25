@@ -39,11 +39,12 @@
 
     if (!empty($_POST)) {
         // Retrieve data
-        $sql_select = "SELECT * FROM registration_tbl WHERE name = ".$name;
+        $name = $_POST['name'];
+        $sql_select = "SELECT * FROM registration_tbl WHERE name = \"".$name."\"";
         $stmt = $conn->query($sql_select);
         $registrants = $stmt->fetchAll(); 
         if(count($registrants) > 0) {
-            echo "<h2>People who are registered:</h2>";
+            echo "<h2>People who are registered with that name:</h2>";
             echo "<table>";
             echo "<tr><th>Name</th>";
             echo "<th>Email</th>";
@@ -57,9 +58,10 @@
             }
             echo "</table>";
         } else {
-            echo "<h3>No one is currently registered.</h3>";
+            echo "<h3>No one is currently registered with that name.</h3>";
         }
     }
 ?>
+<a href="index.php">Go back</a>
 </body>
 </html>
