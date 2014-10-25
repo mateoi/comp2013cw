@@ -21,12 +21,11 @@
 <form method="post" action="index.php" enctype="multipart/form-data" >
       Name  <input type="text" name="name" id="name"/></br>
       Email <input type="text" name="email" id="email"/></br>
+      Company Name <input type="text" name="cname" id="cname"></br>
       <input type="submit" name="submit" value="Submit" />
 </form>
 <?php
     // DB connection info
-    //TODO: Update the values for $host, $user, $pwd, and $db
-    //using the values you retrieved earlier from the portal.
     $host = "eu-cdbr-azure-west-b.cloudapp.net";
     $user = "bbf7e198f118fd";
     $pwd = "2eb24775";
@@ -44,14 +43,16 @@
     try {
         $name = $_POST['name'];
         $email = $_POST['email'];
+        $cname = $_POST['cname'];
         $date = date("Y-m-d");
         // Insert data
-        $sql_insert = "INSERT INTO registration_tbl (name, email, date) 
-                   VALUES (?,?,?)";
+        $sql_insert = "INSERT INTO registration_tbl (name, email, cname, date) 
+                   VALUES (?,?,?,?)";
         $stmt = $conn->prepare($sql_insert);
         $stmt->bindValue(1, $name);
         $stmt->bindValue(2, $email);
-        $stmt->bindValue(3, $date);
+        $stmt->bindValue(3, $cname);
+        $stmt->bindValue(4, $date);
         $stmt->execute();
     }
     catch(Exception $e) {
@@ -68,10 +69,12 @@
         echo "<table>";
         echo "<tr><th>Name</th>";
         echo "<th>Email</th>";
+        echo "<th>Company Name</th>";
         echo "<th>Date</th></tr>";
         foreach($registrants as $registrant) {
             echo "<tr><td>".$registrant['name']."</td>";
             echo "<td>".$registrant['email']."</td>";
+            echo "<td>".$registrant['cname']."</td>";
             echo "<td>".$registrant['date']."</td></tr>";
         }
         echo "</table>";
